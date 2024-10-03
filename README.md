@@ -33,7 +33,8 @@ API for the project:
 
 > Save the index.html locally then double click and you will get the exact same experience as with Next.js and Vue.js apps.
 
-<img src="https://next-web-components.vercel.app/images/salla-web-components-demo.gif" alt="Demo" style="width: 100%;" />
+<a href="https://next-web-components.vercel.app">
+<img src="https://next-web-components.vercel.app/images/salla-web-components-demo.gif" alt="Demo" style="width: 100%;" /></a>
 
 ### How To Use:
 
