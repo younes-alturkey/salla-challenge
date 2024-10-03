@@ -1,0 +1,117 @@
+<!doctype html>
+<html dir="ltr" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+    <link rel="icon" href="https://next-web-components.vercel.app/images/favicon.ico" type="image/x-icon" />
+
+    <title>Salla Web Components</title>
+
+    <script type="module" src="/build/salla-web-components.esm.js"></script>
+    <script nomodule src="/build/salla-web-components.js"></script>
+  </head>
+  <body>
+    <div style="width: 550px; height: 605px" class="">
+      <cart-items style="width: 100%; height: 100%"></cart-items>
+      <shipping-companies style="width: 100%; height: 100%"></shipping-companies>
+      <payment-confirmed style="width: 100%; height: 100%"></payment-confirmed>
+    </div>
+    <script>
+      const cartItemsElement = document.querySelector('cart-items')
+      const shippingCompaniesElement = document.querySelector('shipping-companies')
+      const paymentConfirmedElement = document.querySelector('payment-confirmed')
+
+      cartItemsElement.style.display = 'block'
+      shippingCompaniesElement.style.display = 'none'
+      paymentConfirmedElement.style.display = 'none'
+
+      async function handleProceedToShipping() {
+        cartItemsElement.style.display = 'none'
+        shippingCompaniesElement.style.display = 'block'
+        paymentConfirmedElement.style.display = 'none'
+
+        await fetchShippingCompaniesData()
+      }
+
+      async function handleProceedToPayment() {
+        cartItemsElement.style.display = 'none'
+        shippingCompaniesElement.style.display = 'none'
+        paymentConfirmedElement.style.display = 'block'
+
+        await fetchPaymentConfirmationData()
+      }
+
+      function handleBackToCart() {
+        cartItemsElement.style.display = 'block'
+        shippingCompaniesElement.style.display = 'none'
+        paymentConfirmedElement.style.display = 'none'
+      }
+
+      async function handlProceedToStore() {
+        window.location.reload()
+      }
+
+      async function fetchCartItemsData() {
+        try {
+          const itemsResponse = await fetch('https://next-web-components.vercel.app/api/items')
+          if (!itemsResponse.ok) throw new Error('Failed to fetch items.')
+          const itemsJson = await itemsResponse.json()
+          const items = await itemsJson.data
+          cartItemsElement.items = items
+
+          const couponsResponse = await fetch('https://next-web-components.vercel.app/api/coupons')
+          if (!couponsResponse.ok) throw new Error('Failed to fetch coupons.')
+          const couponsJson = await couponsResponse.json()
+          const coupons = await couponsJson.data
+          cartItemsElement.coupons = coupons
+        } catch (error) {
+          cartItemsElement.error = error.message
+          console.error(error)
+        }
+      }
+
+      async function fetchShippingCompaniesData() {
+        try {
+          const shippingResponse = await fetch('https://next-web-components.vercel.app/api/shipping')
+          if (!shippingResponse.ok) throw new Error('Failed to fetch shipping companies.')
+          const companiesJson = await shippingResponse.json()
+          const companies = await companiesJson.data
+          shippingCompaniesElement.companies = companies
+
+          const totalsResponse = await fetch('https://next-web-components.vercel.app/api/totals?coupon=false&shipping=dhl')
+          if (!totalsResponse.ok) throw new Error('Failed to fetch shipping companies.')
+          const totalsJson = await totalsResponse.json()
+          const totals = await totalsJson.data
+          shippingCompaniesElement.totals = totals
+        } catch (error) {
+          shippingCompaniesElement.error = error.message
+          console.error(error)
+        }
+      }
+
+      async function fetchPaymentConfirmationData() {
+        try {
+          const orderResponse = await fetch('https://next-web-components.vercel.app/api/submit', {
+            method: 'POST',
+          })
+          if (!orderResponse.ok) throw new Error('Failed to submit order.')
+          const orderJson = await orderResponse.json()
+          const data = await orderJson.data
+          paymentConfirmedElement.data = data
+        } catch (error) {
+          paymentConfirmedElement.error = error.message
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', async () => {
+        cartItemsElement.proceedToShipping = handleProceedToShipping
+        shippingCompaniesElement.proceedToPayment = handleProceedToPayment
+        shippingCompaniesElement.backToCart = handleBackToCart
+        paymentConfirmedElement.proceedToStore = handlProceedToStore
+
+        await fetchCartItemsData()
+      })
+    </script>
+  </body>
+</html>

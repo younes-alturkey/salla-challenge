@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* This line is added to avoid the 'No utility classes were detected' warning due the use of 'stencil-tailwind-plugin' */
+.dummy {
+  @apply hidden;
+}
+
+/* Must be be an imported font via importFonts utility function to run in componentWillLoad routine */
+* {
+  font-family: 'Zain', sans-serif;
+}
+
+img {
+  @apply pointer-events-none;
+}
