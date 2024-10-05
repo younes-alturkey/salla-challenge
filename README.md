@@ -17,13 +17,13 @@ API for the project:
 | Cart Total: with coupon and shipping fees | `/totals?coupon=false&shipping=dhl`        |
 | Order submit                              | `/submit`                                  |
 
-> Unfortunately, [The provided API](https://checkout.free.beeceptor.com) is rate-limited and it wasn't feasible to do the challenge using it, so I created my API which works the same way. If available, you may replace the `URL` in any of the 3 projects that use the web components and it will work.
+Unfortunately, [The provided API](https://checkout.free.beeceptor.com) is rate-limited and it wasn't feasible to do the challenge using it, so I created my own API which works the same way. If [the provided API](https://checkout.free.beeceptor.com) is available, you may replace the `URL` in any of the 3 projects that use the web components and it will work.
 
-> A note about coupons, I added a new discount type which is flat. So depending on the coupon data a flat discount is applied or percentage.
+A note about coupons, I added a new discount type which is `flat`. So depending on the coupon data a flat discount is applied or percentage-based.
 
-### Demo: show me don't tell!
+### Demo: Show Me Don't Tell Me!
 
-<img src="https://next-web-components.vercel.app/images/easy.jpg" alt="Easy Peasy" style="width: 50%;" />
+<img src="https://next-web-components.vercel.app/images/nerd.gif" alt="Nerd Mode On" style="width: 100%;" />
 
 ### [NextJS Demo](https://next-web-components.vercel.app)
 
@@ -31,26 +31,27 @@ API for the project:
 
 ### [Static Demo](https://next-web-components.vercel.app/index.html)
 
-> Save the index.html locally then double click and you will get the exact same experience as with Next.js and Vue.js apps.
+You don't need a web server... Save Link As...: [index.html](https://next-web-components.vercel.app/index.html) locally on your machine then double click and you will get the same experience as with Next.js and Vue.js apps. Talk about re-usability and flexibility 🤓.
 
 <a href="https://next-web-components.vercel.app">
 <img src="https://next-web-components.vercel.app/images/salla-web-components-demo.gif" alt="Demo" style="width: 100%;" /></a>
 
 ### How To Use:
 
-How to use these compponents after importing them is defined in the UI design provided. Basically, begin by fetching `items` and `coupons` data and show the `cart-items` checkout step, then once the user clicks proceed, fetch `shipping companies` and `totals` data and show `shipping-companies` checkout step, finally when the user clicks submit show the `payment-confirmed` checkout step.
+How to use these components after importing them is defined in the UI design provided. Basically:
+1. Begin by fetching `items` and `coupons` data and show the `cart-items` checkout step
+2. Then once the user clicks proceed, fetch `shipping companies` and `totals` data and show `shipping-companies` checkout step
+3. Finally when the user clicks submit show the `payment-confirmed` checkout step
 
-> It's up to you how to use these components to complete this flow. You don't have to use all 3 and can customize the flow. The components are stateless and slaves to the parent.
-
-> Moreover, how big or small the components should be is also up to you. They take their parent width and height, simply a fluid design by default.
+It's up to you how to use these components to complete this flow. You don't have to use all 3 and can customize the flow. The components are stateless and slaves to the parent. Moreover, how big or small the components should be is also up to you. They take their parent width and height, simply a fluid design by default.
 
 There are 3 ways to consume these web-components:
 
-1. install `salla-web-components` public NPM package
-2. Include the `static web-components files` of the components and use directly
+1. Install `salla-web-components` public NPM package
+2. Include the `static web-components files` of the components and use them directly
 3. Include the `<script type="module" src="URL"></script>` in website and use directly
 
-Continue below for further guide 👇
+Continue below for further guidance 👇
 
 ### 1. install `salla-web-components`
 
@@ -422,6 +423,12 @@ interface PaymentConfirmedProps {
 type Order = { title: string; subtitle: string }
 ```
 
+### The Use of `enableImportInjection: true` In StencilJS:
+
+In a Vite-based project like Vue.js, enabling enableImportInjection: true in Stencil can help address compatibility issues. Vite's bundler may not always automatically handle implicit dependencies Stencil components require. This setting ensures that those dependencies are properly injected and included during the bundling process, preventing potential runtime issues when using Stencil web components in a Vite environment like Vue.js.
+
+In StencilJS, the `extras: { enableImportInjection: true }` configuration option allows you to inject imports directly into your components, bypassing strict bundling requirements. This is typically used for scenarios where automatic import injection is needed, like when using polyfills or global utility modules, to ensure certain imports are included without explicitly adding them to every component.
+
 ### Key Requirements:
 
 1. **Technology Stack:**
@@ -450,9 +457,16 @@ type Order = { title: string; subtitle: string }
 
 6. **Documentation:** The requested documentation on using a web component, including usage examples, explanations of props, methods, events, and state management, has been provided.
 
+### What I Would Do Better If I Had a Do-Over
+1. Use generic prop names to avoid implying a fixed-flow checkout process. For instance, rename proceedToShipping to onSubmit or onClick
+2. Add more controlling props for the style, images, and text
+3. Allow the injection of elements like adding custom components on top or bottom
+
+In a nutshell, making this a truly generic reusable, and flexible checkout step component like a web-component should be.
+
 ### Thank You For the Beautiful Challenge
 
-The challenge pushed my skills a bit and it was very fun to work on. Of course, much can be done better and there is much more to do but I don't want to make this project more comples or this README.md any longer.
+The challenge pushed my skills a bit and it was very fun to work on. Of course, much can be done better and there is much more to do but I don't want to make this project more complex or this README.md any longer.
 
 <img src="https://next-web-components.vercel.app/images/bow.gif" alt="Bow" style="width: 100%;" />
 
